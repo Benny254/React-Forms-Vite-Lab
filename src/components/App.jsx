@@ -1,21 +1,24 @@
 import { useState } from "react";
-import Filter from "./Filter";
-import ItemForm from "./ItemForm";
 import ShoppingList from "./ShoppingList";
+import ItemForm from "./ItemForm";
 
 function App() {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
 
   function handleAddItem(item) {
-    setItems([...items, item]);
+    setItems((prev) => [...prev, item]);
   }
 
   return (
     <div>
-      <Filter search={search} onSearchChange={setSearch} />
       <ItemForm onItemFormSubmit={handleAddItem} />
-      <ShoppingList items={items} search={search} />
+
+      <ShoppingList
+        items={items}
+        search={search}
+        onSearchChange={setSearch}
+      />
     </div>
   );
 }

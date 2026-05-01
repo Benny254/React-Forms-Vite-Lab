@@ -2,41 +2,42 @@ import { useState } from "react";
 
 function ItemForm({ onItemFormSubmit }) {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Dessert");
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
-    const newItem = {
+    if (!name) return;
+
+    onItemFormSubmit({
       id: crypto.randomUUID(),
       name,
       category,
-    };
+    });
 
-    onItemFormSubmit(newItem);
-
-    // reset form
     setName("");
-    setCategory("");
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Name
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
+      {/* ✅ THIS FIXES queryByLabelText(/Name/) */}
+      <label htmlFor="name">Name</label>
+      <input
+        id="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
-      <label>
-        Category
-        <input
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-      </label>
+      <label htmlFor="category">Category</label>
+      <select
+        id="category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
+        <option value="Dessert">Dessert</option>
+        <option value="Fruit">Fruit</option>
+        <option value="Dairy">Dairy</option>
+      </select>
 
       <button type="submit">Add to List</button>
     </form>
@@ -44,3 +45,4 @@ function ItemForm({ onItemFormSubmit }) {
 }
 
 export default ItemForm;
+q
